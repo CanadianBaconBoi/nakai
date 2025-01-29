@@ -10,7 +10,16 @@ edition = "2021"
 publish = false
 
 [workspace]
-members = ["api", "service", "entity", "migration"]
+members = ["api", "service", "migration"]
+
+[workspace.dependencies]
+rusqlite = { version = "0.32.1", features = ["bundled"] }
+
 
 [dependencies]
 hostess-api = { path = "api" }
+actix-web = "4.9.0"
+tracing-subscriber = { version = "0.3.18", features = ["env-filter"] }
+actix-files = "0.6.6"
+dotenvy = "0.15"
+listenfd = "1"

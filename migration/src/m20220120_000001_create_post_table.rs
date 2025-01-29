@@ -1,35 +1,17 @@
-use sea_orm_migration::{prelude::*, schema::*};
+use rusqlite_migration::{Migrations, M};
+use crate::MigrationTrait;
 
-#[derive(DeriveMigrationName)]
 pub struct Migration;
 
-#[async_trait::async_trait]
 impl MigrationTrait for Migration {
-    async fn up(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        manager
-            .create_table(
-                Table::create()
-                    .table(Posts::Table)
-                    .if_not_exists()
-                    .col(pk_auto(Posts::Id))
-                    .col(string(Posts::Title))
-                    .col(string(Posts::Text))
-                    .to_owned(),
+    fn migration() -> M<'static> {
+        M::up(
+            r#"CREATE TABLE IF NOT EXISTS `posts` (
+                `id` INTEGER PRIMARY KEY AUTOINCREMENT,
+                `title` TEXT NOT NULL,
+                `text` TEXT NOT NULL,
             )
-            .await
+            "#
+        ).down("DROP TABLE IF EXISTS `posts`;")
     }
-
-    async fn down(&self, manager: &SchemaManager) -> Result<(), DbErr> {
-        manager
-            .drop_table(Table::drop().table(Posts::Table).to_owned())
-            .await
-    }
-}
-
-#[derive(DeriveIden)]
-enum Posts {
-    Table,
-    Id,
-    Title,
-    Text,
 }

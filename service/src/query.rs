@@ -1,12 +1,12 @@
-use ::entity::{files, files::Entity as File};
-use sea_orm::*;
+use rusqlite::{Connection, Error};
 
 pub struct Query;
 
 impl Query {
-    pub async fn find_post_by_id(db: &DbConn, id: i32) -> Result<Option<files::Model>, DbErr> {
-        File::find_by_id(id).one(db).await
-    }
+    // pub async fn find_post_by_id(db: &Connection, id: i32) -> Result<Option<files::Model>, rusqlite::Error> {
+    //     //File::find_by_id(id).one(db).await
+    //     Ok(None) //TODO: Implement
+    // }
 
     // /// If ok, returns (post models, num pages).
     // pub async fn find_posts_in_page(
